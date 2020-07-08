@@ -53,12 +53,100 @@ You will recieve a response containing your access token. It will look something
     "expires_in": "3599"
 }
 ```
-The `access_token` environment variable will now be updated.
+The `access_token` environment variable will now be updated. Read more about the call in the [API docs for Generate OAuth2 token](https://dev.telstra.com/content/messaging-api#operation/authToken)
 
 ## Subscribe
+All app have to have a subscription created for them before they can function. to do this:
+1. In the Postman collection go to the **Getting Started** folder
+2. Open the **Create Subscription** call
+3. Make sure the **Telstra API** Environment is selected in the environment drop down
+4. Hit **Send**
 
+Assuming you have already run the **Get Access Token** call you should get a subscription response that looks like this:
+```
+{
+    "destinationAddress": "+61411111111",
+    "expiryDate": 1595383819180,
+    "activeDays": "13"
+}
+```
+You can now use your app for API call for the next 30 days. At that point you will have to re-subscribe. If you want to extend this period you have to sign up with a paid account. You can read more in the [API docs for Subscription](https://dev.telstra.com/content/messaging-api#operation/createSubscription).
 ## Single Message
+To send a single message:
+1. In the Postman collection go to the **Getting Started** folder
+2. Open the **Send SMS Message** call
+3. In the **Body** field copy the following data replacing the phone number with the number you want to send a message to:
+    ```
+    {
+        "to":["+61411111111"],
+        "validity":"60",
+        "priority":false,
+        "body":"Hello World!"
+    }
+    ```
+4. Hit **Send**
+
+You should recieve a response that looks something like this:
+```
+{
+    "messages": [
+        {
+            "to": "+61411111111",
+            "deliveryStatus": "MessageWaiting",
+            "messageId": "CE3111A00FC1EA618F76010007008727",
+            "messageStatusURL": "https://tapi.telstra.com/v2/messages/sms/CE3111A00FC1EA618F76010007008727/status"
+        }
+    ],
+    "Country": [
+        {
+            "AUS": 1
+        }
+    ],
+    "messageType": "SMS",
+    "numberSegments": 1
+}
+```
+You might have noticed that the `to` key is actually an array. If you want to send the same message to multiple phone number then you can simply add numbers to the array like so:
+```
+{
+    "to":["+61411111111","+61422222222"],
+    "validity":"60",
+    "priority":false,
+    "body":"Hello World!"
+}
+
+```
+You can read more about sending messages in the [API docs for Send SMS](https://dev.telstra.com/content/messaging-api#operation/sendSms)
+
 ## Multi-Message
+If you want to send personalised messages in a single API call you can do that as well!
+1. In the Postman collection go to the **Getting Started** folder
+2. Open the **Send SMS Message** call
+3. Change the API url from `https://{{host}}/v2/messages/sms` to `https://{{host}}/v2/messages/sms/multi`
+4. In the **Body** field copy the following data replacing the phone number with the number you want to send a message to:
+    ```
+    {
+        "smsMulti": [
+            {
+            "to": "+61411111111",
+            "body": "Hi Mum",
+            "receiptOff": "true"
+            },
+            {
+            "to": "+61422222222",
+            "body": "Hi Dad",
+            "receiptOff": "true"
+            },
+        ],
+        "notifyURL": "http://www.example.com/"
+    }
+    ```
+This allows you to send unique messages to each of your numbers. This is handy if you want to personalise a small section of the message like the receipients name.
+
+Read more about the call in the [API docs for Send Multiple SMS](https://dev.telstra.com/content/messaging-api#operation/sendMultipleSms)
 ## Create a Particle Webhook
-## Demonstartion using Nanny Alert
+Its super straight forward to create a particle webhook that hit the Telstra API. For this we will link the video demonstration of this being setup after the event.
+
+## Nanny Alert
+A practical application for the Telstra Messaging api I used was in building an emergency alert system for my Nan. This used a Particle Electron and an RF key fob. It allows Nan to easily send for for by pressing the button on her fob. Once she does, SMS messages are sent to family to let them know she is in trouble. You can view the [Nanny Alert project](https://github.com/saphieng/nanny-alert) on my Github.
 
