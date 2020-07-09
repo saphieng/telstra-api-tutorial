@@ -1,5 +1,8 @@
 # Telstra Messaging API Tutorial
  This repo is for setting up and testing the telstra messaging API.
+ 
+ ## Video Stream
+ If you prefer video tutorials follow the recording of our live stream where we take you through the whole process: [IoT Alerts with Telstra API](https://youtu.be/Y0atRkPGEF8)
 
  ## Setup
  Before start we need to install some software and setup our account:
@@ -145,7 +148,7 @@ This allows you to send unique messages to each of your numbers. This is handy i
 
 Read more about the call in the [API docs for Send Multiple SMS](https://dev.telstra.com/content/messaging-api#operation/sendMultipleSms)
 ## Create a Particle Webhook
-Its super straight forward to create a particle webhook that hit the Telstra API. For this we will link the video demonstration of this being setup after the event.
+Its super straight forward to create a particle webhook that hit the Telstra API. For this follow along with our video filmed from the event: [Telstra API and Particle](https://youtu.be/Y0atRkPGEF8?t=5537)
 
 ## Nanny Alert
 A practical application for the Telstra Messaging api I used was in building an emergency alert system for my Nan. This used a Particle Electron and an RF key fob. It allows Nan to easily send for for by pressing the button on her fob. Once she does, SMS messages are sent to family to let them know she is in trouble. You can view the [Nanny Alert project](https://github.com/saphieng/nanny-alert) on my Github.
